@@ -1,0 +1,22 @@
+<launch>
+<param name="latitude_init" value="45.6311926152" type="double"/>
+<param name="longitude_init" value="9.2947495255" type="double"/>
+<param name="h0" value="231.506675163" type="double"/>
+
+<node pkg="lla2enu" name="sub_car" type="sub_gen" output="screen">
+<remap from="odom" to="odom_car"/>
+<param name="vehicle_name" value="car" type="str"/>
+<remap from="vehicle_input_topic" to="/swiftnav/front/gps_pose"/>
+</node>
+
+<node pkg="lla2enu" name="sub_obs" type="sub_gen" output="screen">
+<remap from="odom" to="odom_obs"/>
+<param name="vehicle_name" value="obs" type="str"/>
+<remap from="vehicle_input_topic" to="/swiftnav/obs/gps_pose"/>
+</node>
+
+<node pkg="lla2enu" name="compute_distance" type="compute_distance" output="screen"/>
+<node pkg="lla2enu" name="client_custom" type="client_custom" output="screen"/>
+<node pkg="rqt_reconfigure" type="rqt_reconfigure" name="my_rqt_reconfigure" args="client_custom"/>
+
+</launch>
